@@ -8,12 +8,18 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container-fluid fixed-top bg-light" style="padding: 1rem; box-shadow: 0.2rem;">
+    <div class="container-fluid fixed-top bg-light" style="padding: 0.5rem; box-shadow: 0.2rem;">
       <h3 class="text-center fw-bold">
         ALAMAT CCTV TOKO KLATEN
       </h3>
+        <div class="alert alert-success d-none my-alert text-center">
+          <div class="fw-bold">
+            Sukses Update ke SpreadSheet. Terimakasih <button type="button" id="close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>
     </div>
-    <div class="container" style="padding: 5rem;">
+    
+    <div class="container" style="padding: 3.5rem;">
       <table class="table table-hover">
         <thead class="text-center">
           <tr>	<th>	No	</th>	<th>	Kode Toko	</th>	<th>	Nama Toko	</th>	<th>	Koneksi Utama	</th>	<th>	Koneksi Backup	</th>	<th>	IP CCTV	</th>	<th>	User	</th>	<th>	Password	</th>	<th>	View	</th>	</tr>
@@ -603,32 +609,37 @@
         </tbody>
       </table>
     </div>
-    
-    <footer class="footer mt-auto p-4 bg-light fixed-bottom">
-      <form name="submit-to-google-sheet">
-        <div class="row">
-          <div class="col">
-            <input type="text" class="form-control" id="kodetoko" placeholder="Kode Toko" name="kodetoko">
+
+    <div class="container-fluid bg-light fixed-bottom" style="padding: 0.5rem;">
+      <div class="container">
+        <form name="submit-to-google-sheet" class="formtampil">
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control" id="kodetoko" placeholder="Kode Toko" name="kodetoko">
+            </div>
+            <div class="col">
+              <input type="decimal" class="form-control" id="ipaddress" placeholder="ip address baru" name="ipaddress">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" id="userbaru" placeholder="user baru" name="userbaru">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" id="passwordbaru" placeholder="password baru" name="passwordbaru">
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-success btn-kirim">Proses Up SpreadSheets</button>
+              <button class="btn btn-warning btn-loading d-none" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Proses Lurr Tunggu...
+              </button>
+            </div>
           </div>
-          <div class="col">
-            <input type="decimal" class="form-control" id="ipaddress" placeholder="ip address baru" name="ipaddress">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" id="userbaru" placeholder="user baru" name="userbaru">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" id="passwordbaru" placeholder="password baru" name="passwordbaru">
-          </div>
-          <div class="col">
-            <button type="submit" class="btn btn-success btn-kirim">Tambahkan ke SpreadSheet</button>
-            <button class="btn btn-warning btn-loading d-none" type="button" disabled>
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Proses Lurr Tunggu...
-            </button>
-          </div>
-        </div>
-      </form>
-    </footer>
+        </form>
+        <!-- alert -->
+        <br>
+      </div>
+    </div>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
   const scriptURL = 'https://script.google.com/macros/s/AKfycbwW331gL6btz8VDKjxr1Bk-k2DwOywnVFR5bW6XdAmj7251-dOdbC4TQUM3Gj5pru1y/exec'
@@ -636,6 +647,8 @@
 
   const btnKirim = document.querySelector(".btn-kirim");
   const btnLoading = document.querySelector(".btn-loading");
+  const myAlert = document.querySelector(".my-alert");
+  const formTampil = document.querySelector(".formtampil");
 
   form.addEventListener('submit', e => {
     e.preventDefault()
@@ -649,7 +662,8 @@
         // tampilkan tombol kirim dan hilangkan tombol laoding
         btnLoading.classList.toggle("d-none");
         btnKirim.classList.toggle("d-none");
-        
+        // tampilkan alert
+        myAlert.classList.toggle("d-none");
         //reset formnya
         form.reset();
 
