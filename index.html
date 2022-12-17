@@ -603,25 +603,60 @@
         </tbody>
       </table>
     </div>
+    
     <footer class="footer mt-auto p-4 bg-light fixed-bottom">
-      <div class="row">
-        <div class="col">
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Kode Toko">
+      <form name="submit-to-google-sheet">
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" id="kodetoko" placeholder="Kode Toko" name="kodetoko">
+          </div>
+          <div class="col">
+            <input type="decimal" class="form-control" id="ipaddress" placeholder="ip address baru" name="ipaddress">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="userbaru" placeholder="user baru" name="userbaru">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="passwordbaru" placeholder="password baru" name="passwordbaru">
+          </div>
+          <div class="col">
+            <button type="submit" class="btn btn-success btn-kirim">Tambahkan ke SpreadSheet</button>
+            <button class="btn btn-warning btn-loading d-none" type="button" disabled>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Proses Lurr Tunggu...
+            </button>
+          </div>
         </div>
-        <div class="col">
-          <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="ip address baru">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="user baru">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="password baru">
-        </div>
-        <div class="col">
-          <button type="submit" class="btn btn-success">Tambahkan ke SpreadSheet</button>
-        </div>
-      </div>
+      </form>
     </footer>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwW331gL6btz8VDKjxr1Bk-k2DwOywnVFR5bW6XdAmj7251-dOdbC4TQUM3Gj5pru1y/exec'
+  const form = document.forms['submit-to-google-sheet']
+
+  const btnKirim = document.querySelector(".btn-kirim");
+  const btnLoading = document.querySelector(".btn-loading");
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+
+    // ketika submit di klik, tampilkan tombol loading dan hilangkan tombol kirim
+    btnLoading.classList.toggle("d-none");
+    btnKirim.classList.toggle("d-none");
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        // tampilkan tombol kirim dan hilangkan tombol laoding
+        btnLoading.classList.toggle("d-none");
+        btnKirim.classList.toggle("d-none");
+        
+        //reset formnya
+        form.reset();
+
+        console.log('Success!', response)
+      })
+      .catch(error => console.error('Error!', error.message))
+  })
+</script>
 </body>
 </html>
